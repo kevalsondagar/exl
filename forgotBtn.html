@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Recovery System</title>
+    <style>
+        /* Global Styles */
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3f37c9;
+            --accent-color: #4895ef;
+            --success-color: #4cc9f0;
+            --text-color: #2b2d42;
+            --light-gray: #f8f9fa;
+            --medium-gray: #e9ecef;
+            --dark-gray: #6c757d;
+            --error-color: #f72585;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-gray);
+            color: var(--text-color);
+            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* Container Styles */
+        .auth-container {
+            width: 100%;
+            max-width: 500px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        
+        .auth-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(252, 31, 31, 0.12);
+        }
+
+        /* Header Styles */
+        .auth-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .auth-header h2 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .auth-header p {
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+
+        /* Form Styles */
+        .auth-form {
+            padding: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--medium-gray);
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .form-input:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+            outline: none;
+        }
+
+        /* Button Styles */
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            width: 100%;
+        }
+
+        .btn:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        /* Link Styles */
+        .auth-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .auth-link a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .auth-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* Status Message Styles */
+        .status-message {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 6px;
+            text-align: center;
+            display: none;
+        }
+
+        .success {
+            background-color: #e6f7ee;
+            color: #1ea97c;
+            border: 1px solid #a8e6cf;
+            display: block;
+        }
+
+        .error {
+            background-color: #fce8e6;
+            color: #d32f2f;
+            border: 1px solid #f8c9c5;
+            display: block;
+        }
+
+        /* Timer Styles */
+        .timer {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 576px) {
+            .auth-container {
+                border-radius: 0;
+            }
+            
+            .auth-header, .auth-form {
+                padding: 20px;
+            }
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-fade {
+            animation: fadeIn 0.5s ease forwards;
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container animate-fade">
+        <div class="auth-header">
+            <h2>Forgot Your Password?</h2>
+            <p>Enter your email and we'll send you a link to reset your password</p>
+        </div>
+
+        <div class="auth-form">
+            <div id="statusMessage" class="status-message"></div>
+
+            <div id="formSection">
+                <div class="form-group">
+                    <label for="email" class="form-label">Email Address</label>
+                    <input type="email" id="email" class="form-input" placeholder="Enter your registered email" required>
+                </div>
+
+                <button id="submitBtn" class="btn">Send Reset Link</button>
+                
+                <div class="auth-link">
+                    <a href="Login.html" id="backToLogin">Back to Login</a>
+                </div>
+            </div>
+
+            <div id="successSection" style="display: none;">
+                <div class="status-message success">
+                    Password reset link has been sent to your email!
+                </div>
+                
+                <div class="timer">
+                    Didn't receive the email? <a href="#" id="resendLink">Resend</a>
+                    <div id="timerDisplay" style="display: none;">
+                        (Can resend in <span id="countdown">30</span> seconds)
+                    </div>
+                </div>
+                
+                <div class="auth-link">
+                    <a href="Login.html" id="backToLogin2">Back to Login</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const emailInput = document.getElementById('email');
+            const submitBtn = document.getElementById('submitBtn');
+            const backToLogin = document.getElementById('backToLogin');
+            const backToLogin2 = document.getElementById('backToLogin2');
+            const resendLink = document.getElementById('resendLink');
+            const formSection = document.getElementById('formSection');
+            const successSection = document.getElementById('successSection');
+            const statusMessage = document.getElementById('statusMessage');
+            const timerDisplay = document.getElementById('timerDisplay');
+            const countdown = document.getElementById('countdown');
+
+            let timer = null;
+            let timeLeft = 30;
+
+            // Form submission
+            submitBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const email = emailInput.value.trim();
+                
+                // Validate email
+                if (!email) {
+                    showStatus('Please enter your email address', 'error');
+                    return;
+                }
+
+                if (!validateEmail(email)) {
+                    showStatus('Please enter a valid email address', 'error');
+                    return;
+                }
+
+                // Simulate sending email (in a real app, this would be an AJAX call)
+                setTimeout(() => {
+                    formSection.style.display = 'none';
+                    successSection.style.display = 'block';
+                    startTimer();
+                }, 1000);
+            });
+
+            // Back to login links
+
+            // backToLogin.addEventListener('click', function(e) {
+            //     e.preventDefault();
+            //     alert('Back to login functionality would go here');
+            // });
+
+            // backToLogin2.addEventListener('click', function(e) {
+            //     e.preventDefault();
+            //     alert('Back to login functionality would go here');
+            // });
+            
+
+            // Resend link
+            resendLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                if (timeLeft > 0) {
+                    showStatus(`Please wait ${timeLeft} seconds before resending`, 'error');
+                    return;
+                }
+
+                // Simulate resending email
+                showStatus('Password reset link has been resent!', 'success');
+                timeLeft = 30;
+                startTimer();
+            });
+
+            // Helper functions
+            function validateEmail(email) {
+                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return re.test(email);
+            }
+
+            function showStatus(message, type) {
+                statusMessage.textContent = message;
+                statusMessage.className = 'status-message ' + type;
+            }
+
+            function startTimer() {
+                timerDisplay.style.display = 'block';
+                countdown.textContent = timeLeft;
+                
+                if (timer) clearInterval(timer);
+                
+                timer = setInterval(() => {
+                    timeLeft--;
+                    countdown.textContent = timeLeft;
+                    
+                    if (timeLeft <= 0) {
+                        clearInterval(timer);
+                        timerDisplay.style.display = 'none';
+                    }
+                }, 1000);
+            }
+        });
+    </script>
+</body>
+</html>
