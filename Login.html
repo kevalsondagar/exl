@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head><title>Registration</title><link rel="stylesheet" href="Registration.css"></head>
+<body>
+  <div class="login-container">
+    <form id="registrationForm">
+
+      <div class="login-header">
+        <h1>Welcome to Luxe Haven</h1>
+      </div>
+      
+    <form id="loginForm">
+
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" class="form-control" placeholder="Enter your username" required />
+        <div id="emailError" class="error-message">Please enter a valid email address</div>
+      </div>
+   
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" class="form-control" placeholder="Enter your password" required />
+        <div id="passwordError" class="error-message">Password must be at least 8 characters</div>
+      </div>
+
+      <div class="form-group">
+        <label>
+        <input type="checkbox" id="rememberMe" />
+          Remember me
+        </label>
+      </div>
+            
+      <button type="submit" class="btn">Login</button>
+      </form>
+        
+      <div class="login-footer">
+        <a href="forgotBtn.html" id="forgotPassword">Forgot password?</a>
+        <p><span>Don't have an account?</span> <a href="Sign up.html" id="signUp">Sign up</a></p>
+      </div>
+    </div>
+    </form>
+  </div>
+</body>
+</html>
