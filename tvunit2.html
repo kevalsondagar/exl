@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luxury TV Unit Collection</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #663300;
+            --secondary-color: #f5f5f0;
+            --accent-color: #cc9966;
+            --text-dark: #333;
+            --text-light: #f8f8f8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--secondary-color);
+            color: var(--text-dark);
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+        }
+
+        .tagline {
+            font-style: italic;
+            opacity: 0.9;
+        }
+
+        .filters {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            padding: 1rem;
+            background-color: var(--secondary-color);
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover {
+            background-color: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        .filter-btn.active {
+            background-color: var(--accent-color);
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .furniture-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .furniture-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-image {
+            height: 300px;
+            overflow: hidden;
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .furniture-card:hover .card-image img {
+            transform: scale(1.05);
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .card-price {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .card-description {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .add-to-cart {
+            padding: 0.6rem 1.2rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .add-to-cart:hover {
+            background-color: var(--accent-color);
+        }
+
+        .cart-items-count {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: var(--accent-color);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            z-index: 100;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--accent-color);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 100;
+        }
+
+        .show-notification {
+            opacity: 1;
+        }
+
+        footer {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .gallery {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+                gap: 1.5rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .gallery {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .filters {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="header-content">
+            <h1>LUXURY TV UNIT COLLECTION</h1>
+            <p class="tagline">Stylish Designs for Modern Living Rooms</p>
+        </div>
+    </header>
+
+    <div class="filters">
+        <button class="filter-btn active" data-category="all">All</button>
+        <button class="filter-btn" data-category="modern">Modern</button>
+        <button class="filter-btn" data-category="classic">Classic</button>
+        <button class="filter-btn" data-category="luxury">Luxury</button>
+        <!-- <button class="filter-btn" data-category="sectional">Sectional</button> -->
+
+        <div><a href="index.html">
+                <button class="filter-btn">Back To Home</button>
+        </div></a>
+    </div>
+
+    <div class="container">
+        <div class="gallery">
+            <!-- Item 1 -->
+            <div class="furniture-card" data-category="modern">
+                <div class="card-image">
+                    <img src="photos/TvUnit/brown.png"
+                        alt="Modern minimalist TV unit with clean lines in light gray finish" />
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Minimalist Modern TV Unit</h3>
+                    <div class="card-price">₹1,299</div>
+                    <p class="card-description">Contemporary TV unit with sleek lines and premium finish. Perfect for
+                        modern living spaces.</p>
+                    <div class="card-footer">
+                        <button class="add-to-cart" data-id="1">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 2 -->
+            <div class="furniture-card" data-category="luxury">
+                <div class="card-image">
+                    <img src="photos/TvUnit/black.png"
+                        alt="Luxury TV unit in deep emerald green with gold accents" />
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Emerald Luxury TV Unit</h3>
+                    <div class="card-price">₹2,499</div>
+                    <p class="card-description">Opulent TV unit with hand-carved wooden legs and plush finishes. A
+                        statement piece for any luxury home.</p>
+                    <div class="card-footer">
+                        <button class="add-to-cart" data-id="2">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 3 -->
+            <div class="furniture-card" data-category="classic">
+                <div class="card-image">
+                    <img src="photos/TvUnit/Wall-Mounted TV Unit or Entertainment Unit..png"Classic TV unit in rich brown wood" />
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Classic Wooden TV Unit</h3>
+                    <div class="card-price">$1,899</div>
+                    <p class="card-description">Timeless design with intricate detailing and genuine wood finish.</p>
+                    <div class="card-footer">
+                        <button class="add-to-cart" data-id="3">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 4 -->
+            <div class="furniture-card" data-category="sectional">
+                <div class="card-image">
+                    <img src="photos/TvUnit/🖥️🌙 Hello, design.png"
+                        alt="Large sectional TV unit with multiple compartments" />
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Grand Sectional TV Unit</h3>
+                    <div class="card-price">$2,799</div>
+                    <p class="card-description">Spacious modular TV unit with ample storage and stylish design.</p>
+                    <div class="card-footer">
+                        <button class="add-to-cart" data-id="4">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 5 -->
+            <div class="furniture-card" data-category="modern">
+                <div class="card-image">
+                    <img src="photos/TvUnit/_Modern Living Room Goals_ Sleek Design Meets Cozy Vibes!_.png"
+                        alt="Mid-century modern TV unit with walnut legs and teal finish" />
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Mid-Century TV Unit</h3>
+                    <div class="card-price">$1,599</div>
+                    <p class="card-description">Inspired by 1950s design, featuring angled wooden legs and vibrant
+                        finish.</p>
+                    <div class="card-footer">
+                        <button class="add-to-cart" data-id="5">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 6 -->
+            <div class="furniture-card" data-category="luxury">
+                <div class="card-image">
+                    <img src="photos/tv_units/regal_tv_unit.jpg"
+                        alt="Regal TV unit with ornate detailing and luxurious finish" />
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Regal TV Unit</h3>
+                    <div class="card-price">$3,299</div>
+                    <p class="card-description">Handcrafted TV unit with intricate woodworking and luxurious finishes.
+                    </p>
+                    <div class="card-footer">
+                        <button class="add-to-cart" data-id="6">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 7 -->
+            <div class="furniture-card" data-category="modern">
+                <div class="card-image">
+                    <img src="photos/tv_units/power_tv_unit.jpg" alt="Power TV unit with built-in charging ports" />
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Power TV Unit</h3>
+                    <div class="card-price">$1,899</div>
+                    <p class="card-description">Modern TV unit with built-in charging ports and spacious storage.</p>
+                    <div class="card-footer">
+                        <button class="add-to-cart" data-id="7">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 8 -->
+            <div class="furniture-card" data-category="classic">
+                <div class="card-image">
+                    <img src="photos/tv_units/french_tv_unit.jpg" alt="French-style TV unit with floral design" />
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">French Provincial TV Unit</h3>
+                    <div class="card-price">$2,199</div>
+                    <p class="card-description">Elegant reproduction of a classic French TV unit with hand-painted
+                        details.</p>
+                    <div class="card-footer">
+                        <button class="add-to-cart" data-id="8">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 9 -->
+            <div class="furniture-card" data-category="sectional">
+                <div class="card-image">
+                    <img src="photos/tv_units/curved_tv_unit.jpg" alt="Curved TV unit with modern design" />
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Curved TV Unit</h3>
+                    <div class="card-price">$2,999</div>
+                    <p class="card-description">Sleek curved design with deep storage and premium finishes.</p>
+                    <div class="card-footer">
+                        <button class="add-to-cart" data-id="9">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 10 -->
+            <div class="furniture-card" data-category="modern">
+                <div class="card-image">
+                    <img src="photos/tv_units/convertible_tv_unit.jpg" alt="Convertible TV unit with hidden storage" />
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Convertible TV Unit</h3>
+                    <div class="card-price">$1,599</div>
+                    <p class="card-description">Convertible TV unit with hidden storage compartments for a clean look.
+                    </p>
+                    <div class="card-footer">
+                        <button class="add-to-cart" data-id="10">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 11 -->
+            <div class="furniture-card" data-category="luxury">
+                <div class="card-image">
+                    <img src="photos/tv_units/italian_tv_unit.jpg" alt="Italian luxury TV unit with brass detailing" />
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Italian Luxury TV Unit</h3>
+                    <div class="card-price">$5,499</div>
+                    <p class="card-description">Exceptional quality with hand-tufted cushions and brass accents.</p>
+                    <div class="card-footer">
+                        <button class="add-to-cart" data-id="11">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 12 -->
+            <div class="furniture-card" data-category="classic">
+                <div class="card-image">
+                    <img src="photos/tv_units/victorian_tv_unit.jpg"
+                        alt="Victorian-style TV unit with rich detailing" />
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Victorian TV Unit</h3>
+                    <div class="card-price">$2,399</div>
+                    <p class="card-description">Elegant Victorian reproduction with intricate detailing and rich wood
+                        finish.</p>
+                    <div class="card-footer">
+                        <button class="add-to-cart" data-id="12">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 13 -->
+            <div class="furniture-card" data-category="modern">
+                <div class="card-image">
+                    <img src="photos/tv_units/floating_tv_unit.jpg" alt="Floating TV unit with modern design" />
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Floating TV Unit</h3>
+                    <div class="card-price">$1,899</div>
+                    <p class="card-description">Modern design with a floating appearance and ample storage space.</p>
+                    <div class="card-footer">
+                        <button class="add-to-cart" data-id="13">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 14 -->
+            <div class="furniture-card" data-category="sectional">
+                <div class="card-image">
+                    <img src="photos/tv_units/pet_friendly_tv_unit.jpg"
+                        alt="Pet-friendly TV unit with durable fabric" />
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Pet-Friendly TV Unit</h3>
+                    <div class="card-price">$2,199</div>
+                    <p class="card-description">Durable fabric with moisture barrier technology, perfect for pet owners.
+                    </p>
+                    <div class="card-footer">
+                        <button class="add-to-cart" data-id="14">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 15 -->
+            <div class="furniture-card" data-category="luxury">
+                <div class="card-image">
+                    <img src="photos/tv_units/plush_tv_unit.jpg" alt="Plush TV unit with luxurious upholstery" />
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Plush Luxury TV Unit</h3>
+                    <div class="card-price">$3,899</div>
+                    <p class="card-description">Ultra-plush TV unit with premium upholstery and elegant design.</p>
+                    <div class="card-footer">
+                        <button class="add-to-cart" data-id="15">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cart-items-count" id="cartCount"><i class="fa-solid fa-shopping-bag"></i></div>
+        </div>
+    </div>
+    <div class="notification" id="notification">Item added to cart!</div>
+
+    <footer>
+        <p>&copy; 2025 Luxury Sofa Collection. All rights reserved.</p>
+        <p>Handcrafted with passion for discerning homeowners.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Filter functionality
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const furnitureCards = document.querySelectorAll('.furniture-card');
+
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    // Remove active class from all buttons
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    // Add active class to clicked button
+                    this.classList.add('active');
+
+                    const category = this.dataset.category;
+
+                    // Filter furniture cards
+                    furnitureCards.forEach(card => {
+                        if (category === 'all' || card.dataset.category === category) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
+
+            // Shopping cart functionality
+            const cartCount = document.getElementById('cartCount');
+            const notification = document.getElementById('notification');
+            const addToCartButtons = document.querySelectorAll('.add-to-cart');
+            let itemCount = 0;
+
+            addToCartButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const itemId = this.dataset.id;
+                    itemCount++;
+                    cartCount.textContent = itemCount;
+
+                    // Show notification
+                    notification.classList.add('show-notification');
+
+                    // Hide notification after 3 seconds
+                    setTimeout(() => {
+                        notification.classList.remove('show-notification');
+                    }, 3000);
+
+                    // Here you would normally send the item ID to your cart system
+                    console.log(`Item ${itemId} added to cart`);
+                });
+            });
+
+            // Preload animations when elements come into view
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            furnitureCards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                observer.observe(card);
+            });
+        });
+    </script>
+</body>
+
+</html>
