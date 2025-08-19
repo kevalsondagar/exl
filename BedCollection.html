@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luxury Bed Furniture Collection</title>
+    <style>
+        :root {
+            --primary-color: #d4af37;
+            --secondary-color: #121212;
+            --accent-color: #f5f5f5;
+            --text-color: #333;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Georgia', serif;
+        }
+
+        body {
+            background-color: #f9f9f9;
+            color: var(--text-color);
+        }
+
+        header {
+            background: linear-gradient(to right, #000000, #434343);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .search-container {
+            display: flex;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+
+        #search-input {
+            width: 60%;
+            padding: 1rem;
+            border: 2px solid var(--primary-color);
+            border-radius: 4px;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .filter-section {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.8rem 1.5rem;
+            background-color: white;
+            border: 1px solid var(--primary-color);
+            color: var(--text-color);
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .product-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-bottom: 1px solid #eee;
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .product-name {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--secondary-color);
+        }
+
+        .product-price {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            font-weight: bold;
+            margin: 0.5rem 0;
+        }
+
+        .add-to-cart {
+            width: 100%;
+            padding: 0.8rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .add-to-cart:hover {
+            background-color: #c8a335;
+        }
+
+        .cart-notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem;
+            border-radius: 4px;
+            display: none;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        footer {
+            background: linear-gradient(to right, #000000, #434343);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .grid-container {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+
+            header h1 {
+                font-size: 2rem;
+            }
+
+            #search-input {
+                width: 80%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+
+        <h1>Luxury Bed Furniture Collection</h1>
+        <p>Experience unparalleled comfort and elegance</p>
+
+
+    </header>
+
+    <div class="container">
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="Find your perfect luxury bed..."
+                aria-label="Search luxury beds">
+        </div>
+
+        <div class="filter-section">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="king">King Size</button>
+            <button class="filter-btn" data-filter="queen">Queen Size</button>
+            <button class="filter-btn" data-filter="canopy">Canopy</button>
+            <button class="filter-btn" data-filter="modern">Modern</button>
+            <a href="index.html">
+                <button class="filter-btn">Back To Home</button>
+        </div></a>
+
+        <div class="grid-container" id="products-grid">
+            <!-- Product cards will be generated by JavaScript -->
+        </div>
+    </div>
+
+    <div class="cart-notification" id="cart-notification">
+        Item added to cart!
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Letest Luxury Bed Furniture. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const products = [
+            {
+                id: 1,
+                name: "Regal Monarch King Bed",
+                price: "₹2,40,999",
+                category: ["king"],
+                description: "Handcrafted king bed with gold leaf detailing",
+                image: "photos/bed/Regal Monarch King Bed.jpg"
+            },
+            {
+                id: 2,
+                name: "Elegance Queen Bed Frame",
+                price: "₹4,94,899",
+                category: ["queen"],
+                description: "Italian leather upholstered queen bed",
+                image: "photos/bed/Elegance Queen Bed Frame.jpg"
+            },
+            {
+                id: 3,
+                name: "Royal Canopy Bed",
+                price: "₹4,56,999",
+                category: ["canopy", "king"],
+                description: "Four-poster canopy bed with silk drapes",
+                image: "photos/bed/Royal Canopy Bed.jpg"
+            },
+            {
+                id: 4,
+                name: "Modern Minimalist Platform",
+                price: "₹ 1,94,200",
+                category: ["modern", "queen"],
+                description: "Sleek platform bed with hidden storage",
+                image: "photos/bed/Modern Minimalist Platform.jpg"
+            },
+            {
+                id: 5,
+                name: "Tuscany King Bed",
+                price: "₹2,67,499",
+                category: ["king"],
+                description: "Hand-carved walnut king size bed",
+                image: "photos/bed/Tuscany King Bed.jpg"
+            },
+            {
+                id: 6,
+                name: "Chateau Queen Bed",
+                price: "1,76,599",
+                category: ["queen"],
+                description: "French inspired upholstered bed",
+                image: "photos/bed/Chateau Queen Bed.jpg"
+            },
+            {
+                id: 7,
+                name: "Victorian Canopy Bed",
+                price: "₹5,68,999",
+                category: ["canopy"],
+                description: "Antique reproduction canopy bed",
+                image: "photos/bed/Victorian Canopy Bed.jpg"
+            },
+            {
+                id: 8,
+                name: "cutebedroom",
+                price: "₹2,58,899",
+                category: ["modern"],
+                description: "Geometric patterned Art Deco bed",
+                image: "photos/bed/cutebedroom.png"
+            },
+            {
+                id: 9,
+                name: "Marble Platform Bed",
+                price: "₹1,02,499",
+                category: ["modern"],
+                description: "Luxe marble and brass platform bed",
+                image: "photos/bed/Marble Platform Bed.png"
+            },
+            {
+                id: 10,
+                name: "Velvet Tufted Queen",
+                price: "₹1,00,000",
+                category: ["queen"],
+                description: "Deep button tufted velvet bed",
+                image: "photos/bed/Velvet Tufted Queen.jpg"
+            },
+            {
+                id: 11,
+                name: "Palatial King Canopy",
+                price: "₹1,24,499",
+                category: ["canopy", "king"],
+                description: "Ornate canopy bed with silk drapes",
+                image: "photos/bed/Palatial King Canopy.jpg"
+            },
+            {
+                id: 12,
+                name: "Industrial Loft Bed",
+                price: "₹1,47,399",
+                category: ["modern"],
+                description: "Reclaimed wood and iron pipe bed",
+                image: "photos/bed/Industrial Loft Bed.jpg"
+            },
+            {
+                id: 13,
+                name: "Empress Queen Bed",
+                price: "₹2,96,199",
+                category: ["queen"],
+                description: "Regal upholstered bed with nailhead trim",
+                image: "photos/bed/Empress Queen Bed.png"
+            },
+            {
+                id: 14,
+                name: "Royal Suite King",
+                price: "₹3,18,799",
+                category: ["king"],
+                description: "Hotelier's choice luxury king bed",
+                image: "photos/bed/Royal Suite King.jpg"
+            },
+            {
+                id: 15,
+                name: "Celestial Canopy Bed",
+                price: "₹4,15,899",
+                category: ["canopy"],
+                description: "Starry canopy with sheer drapes",
+                image: "photos/bed/Celestial Canopy Bed.jpg"
+            },
+            {
+                id: 16,
+                name: "Zen Platform Queen",
+                price: "₹4,36,999",
+                category: ["modern", "queen"],
+                description: "Japanese inspired platform bed",
+                image: "photos/bed/Zen Platform Queen.jpg"
+            },
+            {
+                id: 17,
+                name: "Gatsby King Bed",
+                price: "₹1,58,299",
+                category: ["king"],
+                description: "1920s inspired luxury bed frame",
+                image: "photos/bed/Gatsby King Bed.jpg"
+            },
+            {
+                id: 18,
+                name: "Romantic Bedroom",
+                price: "₹3,11,899",
+                category: ["queen"],
+                description: "Coastal luxury upholstered bed",
+                image: "photos/bed/Romantic Bedroom.jpg"
+            },
+            {
+                id: 19,
+                name: "Modern Canopy Bed",
+                price: "₹1,04,999",
+                category: ["canopy", "modern"],
+                description: "Clean lines contemporary canopy",
+                image: "photos/bed/Modern Canopy Bed.jpg"
+            },
+            {
+                id: 20,
+                name: "Gold Leaf King",
+                price: "₹2,05,499",
+                category: ["king"],
+                description: "24k gold leaf accented masterpiece",
+                image: "photos/bed/Gold Leaf King bed.jpg"
+            }
+        ];
+
+        // Render products
+        function renderProducts(productsToRender) {
+            const grid = document.getElementById('products-grid');
+            grid.innerHTML = '';
+
+            productsToRender.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.setAttribute('data-category', product.category.join(' '));
+
+                card.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}" class="product-image" />
+                    <div class="product-info">
+                        <h3 class="product-name">${product.name}</h3>
+                        <p>${product.description}</p>
+                        <p class="product-price">${product.price}</p>
+                        <button class="add-to-cart" data-id="${product.id}">Add to Cart</button>
+                    </div>
+                `;
+
+                grid.appendChild(card);
+            });
+
+            // Add event listeners to buttons
+            document.querySelectorAll('.add-to-cart').forEach(button => {
+                button.addEventListener('click', addToCart);
+            });
+        }
+
+        // Filter products
+        function filterProducts(category) {
+            if (category === 'all') {
+                renderProducts(products);
+                return;
+            }
+
+            const filteredProducts = products.filter(product =>
+                product.category.includes(category)
+            );
+
+            renderProducts(filteredProducts);
+        }
+
+        // Search products
+        function searchProducts(searchTerm) {
+            const filteredProducts = products.filter(product =>
+                product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                product.description.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+
+            renderProducts(filteredProducts);
+        }
+
+        // Add to cart functionality
+        function addToCart(e) {
+            const productId = parseInt(e.target.getAttribute('data-id'));
+            const product = products.find(p => p.id === productId);
+
+            // Show notification
+            const notification = document.getElementById('cart-notification');
+            notification.style.display = 'block';
+
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 2000);
+
+            // In a real app, you would add to cart storage here
+            console.log(`Added to cart: ${product.name}`);
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            renderProducts(products);
+
+            // Filter buttons
+            document.querySelectorAll('.filter-btn').forEach(button => {
+                button.addEventListener('click', () => {
+                    document.querySelectorAll('.filter-btn').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    button.classList.add('active');
+
+                    filterProducts(button.getAttribute('data-filter'));
+                });
+            });
+
+            // Search functionality
+            document.getElementById('search-input').addEventListener('input', (e) => {
+                searchProducts(e.target.value);
+            });
+        });
+    </script>
+</body>
+
+</html>
